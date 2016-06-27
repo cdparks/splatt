@@ -47,9 +47,6 @@ static char const * const timer_names[] = {
 #endif
 };
 
-//int timer_lvl = TIMER_NTIMERS;
-//sp_timer_t timers[TIMER_NTIMERS];
-
 
 /******************************************************************************
  * PUBLIC FUNCTIONS
