@@ -19,15 +19,17 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     OUTPUT_VARIABLE brew_prefix
   )
 
-  # Kill the build early if homebrew isn't installed
-  if(NOT "${brew_result}" STREQUAL "0")
-    message(FATAL_ERROR "`brew --prefix` failed with ${brew_result} - is homebrew installed?")
-  endif()
-
   # Add homebrew's include and lib directories to access argp
-  string(STRIP ${brew_prefix} brew_prefix)
-  include_directories(${brew_prefix}/include/)
-  link_directories(${brew_prefix}/lib/)
-  set(SPLATT_LIBS ${SPLATT_LIBS} argp)
+  if("${brew_result}" STREQUAL "0")
+    string(STRIP ${brew_prefix} brew_prefix)
+    include_directories(${brew_prefix}/include/)
+    link_directories(${brew_prefix}/lib/)
+    set(SPLATT_LIBS ${SPLATT_LIBS} argp)
+  else()
+
+    # Warn if homebrew isn't installed
+    message(WARNING "`brew --prefix` failed with ${brew_result}.")
+    message(WARNING "`homebrew` is not required, but argp.h and libargp must be found in include and lib paths.")
+  endif()
 endif()
 
